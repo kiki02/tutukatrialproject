@@ -26,6 +26,7 @@ public class CoreProcessingService {
 	public static int MAX_INDEX = ind;
 	
 	public static int matchingThreshold = 70; //70%
+	public static int numberOfMatchingRecords = 7;
 	
 	public static boolean isFilePathValid(String filePath) {
 		if (filePath == null || filePath.equals("") || filePath.length() < 4)
@@ -203,7 +204,7 @@ public class CoreProcessingService {
         		closeData.matchingRate = calculateMatchingRate(recordLine_1,recordLine_2);
         		
         		// Should be matched with high rate - matchingThreshold %
-        		if (closeData.matchingRate > matchingThreshold)
+//        		if (closeData.matchingRate > matchingThreshold)
         			tmpList.add(closeData);
         	}
         	// sorting matching list by descending order of matchingRate
@@ -214,8 +215,10 @@ public class CoreProcessingService {
     	        	return Double.compare(data_2.matchingRate, data_1.matchingRate);
     	        }
     	    });
-    		
-    		compResult.unmatchingTransaction_1.get(i).closeMatchRecords.addAll(tmpList);
+    		if (tmpList.size() > numberOfMatchingRecords)
+    			compResult.unmatchingTransaction_1.get(i).closeMatchRecords.addAll(tmpList.subList(0, numberOfMatchingRecords));
+    		else
+    			compResult.unmatchingTransaction_1.get(i).closeMatchRecords.addAll(tmpList.subList(0, tmpList.size()-1));
         }
         
         // For unmatching records in file 2: looking for any close matches
@@ -230,7 +233,7 @@ public class CoreProcessingService {
         		closeData.matchingRate = calculateMatchingRate(recordLine_2,recordLine_1);
         		
         		// Should be matched with high rate - matchingThreshold %
-        		if (closeData.matchingRate > matchingThreshold)
+//        		if (closeData.matchingRate > matchingThreshold)
         			tmpList.add(closeData);
         	}
         	// sorting matching list by descending order of matchingRate
@@ -241,8 +244,10 @@ public class CoreProcessingService {
     	        	return Double.compare(data_2.matchingRate, data_1.matchingRate);
     	        }
     	    });
-    		
-    		compResult.unmatchingTransaction_2.get(i).closeMatchRecords.addAll(tmpList);
+    		if (tmpList.size() > numberOfMatchingRecords)
+    			compResult.unmatchingTransaction_2.get(i).closeMatchRecords.addAll(tmpList.subList(0, numberOfMatchingRecords));
+    		else
+    			compResult.unmatchingTransaction_2.get(i).closeMatchRecords.addAll(tmpList.subList(0, tmpList.size()-1));
         }
         
         return compResult;

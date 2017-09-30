@@ -1,6 +1,8 @@
 package com.tutuka.trialproject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -110,7 +112,6 @@ public class TransactionComparison extends HttpServlet {
                   	  	file.delete();
                 	}
                 		
-                	
                     out.println("<html>");
                     out.println("<head>");
                     out.println("<title>Servlet upload</title>");  
@@ -139,6 +140,33 @@ public class TransactionComparison extends HttpServlet {
           
           // we expected only 2 files in here
           if (inputFileArr.size() == 2) {
+        	  // checking for the valid input files
+        	  try {
+                  BufferedReader in1 = new BufferedReader(new FileReader(inputFileArr.get(0)));
+                  BufferedReader in2 = new BufferedReader(new FileReader(inputFileArr.get(1)));
+                  
+                  String[] headerFile1 = in1.readLine().split(",");
+                  String[] headerFile2 = in2.readLine().split(",");
+                  
+                  if ((headerFile1.length != CoreProcessingService.MAX_INDEX+1) ||
+                		  (headerFile2.length != CoreProcessingService.MAX_INDEX+1)) {
+                	  out.println("<html>");
+                      out.println("<head>");
+                      out.println("<title>Servlet upload</title>");  
+                      out.println("</head>");
+                      out.println("<body>");
+                      out.println("<p>Uploading files are incorrect format, they should have " + (CoreProcessingService.MAX_INDEX+1) +
+                    		  " fields.<br>Please check again your selected files!</p>"); 
+                      out.println("</body>");
+                      out.println("</html>");
+                      return;
+                  }
+                  
+                  in1.close();
+                  in2.close();
+              } catch (Exception e) {
+                  e.printStackTrace();
+              }
         	  // going to core processing of this project
         	  comparisonResult = CoreProcessingService.startCompareFiles(inputFileArr.get(0), inputFileArr.get(1));
         	  // delete temp upload files

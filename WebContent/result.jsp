@@ -147,15 +147,15 @@
                             </thead>
                             <tbody>
                             	<% for(int i = 0; i < ComparisonResult.unmatchingTransaction_1.size(); i+=1) { 
-                            			String[] lineContent = ComparisonResult.unmatchingTransaction_1.get(i).lineContent.split(",");
+                            			String[] lineContent = ComparisonResult.unmatchingTransaction_1.get(i).lineContent.split(",",-1);
                             	%>
 							        <tr>
 							        	<th scope="row"><%=i%></th>
-							            <td><%=lineContent[CoreProcessingService.TRANSACTION_DATE]%></td>
-							            <td><%= lineContent.length > CoreProcessingService.MAX_INDEX ? lineContent[CoreProcessingService.WALLET_REFERENCE] : "" %></td>
-						            	<td><%=lineContent[CoreProcessingService.TRANSACTION_AMOUNT]%></td>
-							            <td><%=lineContent[CoreProcessingService.TRANSACTION_ID]%></td>
-							            <td><%=lineContent[CoreProcessingService.TRANSACTION_NARRATIVE]%></td>
+							            <td><%=lineContent.length > CoreProcessingService.TRANSACTION_DATE ? lineContent[CoreProcessingService.TRANSACTION_DATE] : ""%></td>
+							            <td><%=lineContent.length > CoreProcessingService.WALLET_REFERENCE ? lineContent[CoreProcessingService.WALLET_REFERENCE] : ""%></td>
+						            	<td><%=lineContent.length > CoreProcessingService.TRANSACTION_AMOUNT ? lineContent[CoreProcessingService.TRANSACTION_AMOUNT] : ""%></td>
+							            <td><%=lineContent.length > CoreProcessingService.TRANSACTION_ID ? lineContent[CoreProcessingService.TRANSACTION_ID] : ""%></td>
+							            <td><%=lineContent.length > CoreProcessingService.TRANSACTION_NARRATIVE ? lineContent[CoreProcessingService.TRANSACTION_NARRATIVE] : ""%></td>
 							            <td>
 				                            <button class="btn btn-info btn-sm" data-id="<%=i%>" onClick="openModal(this,1)">
 				                                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -195,15 +195,15 @@
                             </thead>
                             <tbody>
                                 <% for(int i = 0; i < ComparisonResult.unmatchingTransaction_2.size(); i+=1) { 
-                            			String[] lineContent = ComparisonResult.unmatchingTransaction_2.get(i).lineContent.split(",");
+                            			String[] lineContent = ComparisonResult.unmatchingTransaction_2.get(i).lineContent.split(",",-1);
                             	%>
 							        <tr>
 							        	<th scope="row"><%=i%></th>
-							            <td><%=lineContent[CoreProcessingService.TRANSACTION_DATE]%></td>
-							            <td><%= lineContent.length > CoreProcessingService.MAX_INDEX ? lineContent[CoreProcessingService.WALLET_REFERENCE] : "" %></td>
-						            	<td><%=lineContent[CoreProcessingService.TRANSACTION_AMOUNT]%></td>
-							            <td><%=lineContent[CoreProcessingService.TRANSACTION_ID]%></td>
-							            <td><%=lineContent[CoreProcessingService.TRANSACTION_NARRATIVE]%></td>
+							            <td><%=lineContent.length > CoreProcessingService.TRANSACTION_DATE ? lineContent[CoreProcessingService.TRANSACTION_DATE] : ""%></td>
+							            <td><%=lineContent.length > CoreProcessingService.WALLET_REFERENCE ? lineContent[CoreProcessingService.WALLET_REFERENCE] : ""%></td>
+						            	<td><%=lineContent.length > CoreProcessingService.TRANSACTION_AMOUNT ? lineContent[CoreProcessingService.TRANSACTION_AMOUNT] : ""%></td>
+							            <td><%=lineContent.length > CoreProcessingService.TRANSACTION_ID ? lineContent[CoreProcessingService.TRANSACTION_ID] : ""%></td>
+							            <td><%=lineContent.length > CoreProcessingService.TRANSACTION_NARRATIVE ? lineContent[CoreProcessingService.TRANSACTION_NARRATIVE] : ""%></td>
 							            <td>
 											<button class="btn btn-info btn-sm" data-id="<%=i%>" onClick="openModal(this,2)">
 				                                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -290,10 +290,10 @@
    	  	var unmatchedLineContent = null;
    	  	if (type == 1) {
    	  		matchingList = global_Comparison_result.unmatchingTransaction_1[rowIdx].closeMatchRecords;
-   	  		unmatchedLineContent = global_Comparison_result.unmatchingTransaction_1[rowIdx].lineContent.split(",");
+   	  		unmatchedLineContent = global_Comparison_result.unmatchingTransaction_1[rowIdx].lineContent.split(",",-1);
    	  	} else if (type == 2) {
    	  		matchingList = global_Comparison_result.unmatchingTransaction_2[rowIdx].closeMatchRecords;
-   	  		unmatchedLineContent = global_Comparison_result.unmatchingTransaction_2[rowIdx].lineContent.split(",");
+   	  		unmatchedLineContent = global_Comparison_result.unmatchingTransaction_2[rowIdx].lineContent.split(",",-1);
    	  	} else {
    	  		return;
    	  	}
@@ -304,14 +304,14 @@
    	 	
    	  	var matchingListTable = '';
    	  	for(var i=0;i<matchingList.length;i++) {
-   	  		var lineContent = matchingList[i].lineContent.split(",");
+   	  		var lineContent = matchingList[i].lineContent.split(",",-1);
    	  		matchingListTable += '<tr>' +
 	        	'<th scope="row">' + i + '</th>' +
-	            '<td>' + lineContent[<%=CoreProcessingService.TRANSACTION_DATE%>] + '</td>' +
-	            '<td>' + ((lineContent.length > <%=CoreProcessingService.MAX_INDEX%>) ? lineContent[<%=CoreProcessingService.WALLET_REFERENCE%>] : '') + '</td>' +
-	            '<td>' + lineContent[<%=CoreProcessingService.TRANSACTION_AMOUNT%>] + '</td>' +
-	            '<td>' + lineContent[<%=CoreProcessingService.TRANSACTION_ID%>] + '</td>' +
-	            '<td>' + lineContent[<%=CoreProcessingService.TRANSACTION_NARRATIVE%>] + '</td>' +
+	        	'<td>' + ((lineContent.length > <%=CoreProcessingService.TRANSACTION_DATE%>) ? lineContent[<%=CoreProcessingService.TRANSACTION_DATE%>] : '') + '</td>' +
+	        	'<td>' + ((lineContent.length > <%=CoreProcessingService.WALLET_REFERENCE%>) ? lineContent[<%=CoreProcessingService.WALLET_REFERENCE%>] : '') + '</td>' +
+	        	'<td>' + ((lineContent.length > <%=CoreProcessingService.TRANSACTION_AMOUNT%>) ? lineContent[<%=CoreProcessingService.TRANSACTION_AMOUNT%>] : '') + '</td>' +
+	        	'<td>' + ((lineContent.length > <%=CoreProcessingService.TRANSACTION_ID%>) ? lineContent[<%=CoreProcessingService.TRANSACTION_ID%>] : '') + '</td>' +
+	        	'<td>' + ((lineContent.length > <%=CoreProcessingService.TRANSACTION_NARRATIVE%>) ? lineContent[<%=CoreProcessingService.TRANSACTION_NARRATIVE%>] : '') + '</td>' + 
 	            '<td>' + matchingList[i].matchingRate.toFixed(2) + '</td>' +
 	        '</tr>';
    	  	}
@@ -319,11 +319,11 @@
    		
    		document.getElementById("unmatchedTransaction").innerHTML = '<tr>' +
 		    	'<th scope="row">0</th>' +
-		        '<td>' + unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_DATE%>] + '</td>' +
-		        '<td>' + ((unmatchedLineContent.length > <%=CoreProcessingService.MAX_INDEX%>) ? unmatchedLineContent[<%=CoreProcessingService.WALLET_REFERENCE%>] : '') + '</td>' +
-		        '<td>' + unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_AMOUNT%>] + '</td>' +
-		        '<td>' + unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_ID%>] + '</td>' +
-		        '<td>' + unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_NARRATIVE%>] + '</td>' +
+		    	'<td>' + ((unmatchedLineContent.length > <%=CoreProcessingService.TRANSACTION_DATE%>) ? unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_DATE%>] : '') + '</td>' +
+	        	'<td>' + ((unmatchedLineContent.length > <%=CoreProcessingService.WALLET_REFERENCE%>) ? unmatchedLineContent[<%=CoreProcessingService.WALLET_REFERENCE%>] : '') + '</td>' +
+	        	'<td>' + ((unmatchedLineContent.length > <%=CoreProcessingService.TRANSACTION_AMOUNT%>) ? unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_AMOUNT%>] : '') + '</td>' +
+	        	'<td>' + ((unmatchedLineContent.length > <%=CoreProcessingService.TRANSACTION_ID%>) ? unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_ID%>] : '') + '</td>' +
+	        	'<td>' + ((unmatchedLineContent.length > <%=CoreProcessingService.TRANSACTION_NARRATIVE%>) ? unmatchedLineContent[<%=CoreProcessingService.TRANSACTION_NARRATIVE%>] : '') + '</td>' + 
 		    '</tr>';
    		$('#closeMatchingDetailModal').modal('show');
 
